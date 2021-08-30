@@ -1,0 +1,206 @@
+# i3 CONFIG
+# This is my configuration file for the i3 window manager.
+
+# The default modifier key for keyboard shortcuts
+# Mod1 = Left Alt
+# Mod3 = Right Alt
+# Mod4 = Left Super
+set $mod Mod4
+
+# Font for window titles, tab bars, etc.
+font pango:Noto Sans Display 10
+
+# Volume keys
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Modifier key for floating windows with mouse. $mod is recommended for consistency.
+floating_modifier $mod
+
+# Mod+Left click = move floating window
+# Mod+Middle click = put focused window on top
+# Mod+Right click = resize floating window
+
+# Launch a terminal
+bindsym $mod+Shift+Return exec "alacritty"
+
+# Close focused window
+bindsym $mod+Shift+c kill
+
+# Start dmenu (a program launcher)
+bindsym $mod+d exec /home/naeem/.dmenurc
+
+# Change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Same, but with the arrow keys
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Same, but with the arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Switch layouts
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle floating/tiling for focused window
+bindsym $mod+Shift+space floating toggle
+
+# Workspace names
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+
+# Switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+
+# Move focused window to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+
+# Reload the config file
+bindsym $mod+Shift+r reload
+# Restart i3
+bindsym $mod+ctrl+r restart
+
+# Resize mode
+mode "resize" {
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        # Same, but with the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # Exit resize mode
+	bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Colours (bgcolour = background, ibg = unfocused "", black/white = black and white, ubg=urgent background, bgdark/ibgdark = ibg/bgcolour but darker))
+
+set $bgcolour 	"#22a7ff"
+set $ibgcolour 	"#191d1f"
+set $white 	"#ffffff"
+set $black 	"#000000"
+set $ubgcolour	"#aa0000"
+
+#			Border		Background		Text		Indicator
+client.focused		$bgcolour	$bgcolour		$black		$bgcolour
+client.unfocused	$ibgcolour	$ibgcolour		$white		$ibgcolour
+client.focused_inactive	$ibgcolour	$ibgcolour		$white		$ibgcolour
+client.urgent		$ubgcolour	$ubgcolour		$black		$ubgcolour
+
+
+# This launches i3bar
+# bar {
+# 	position top
+# 	tray_padding 6
+#         status_command /usr/bin/bumblebee-status \
+# 		-m memory sensors weather pasink date time \
+# 		-p time.format="%H:%M:%S" date.format "%a, %d %b %Y" \
+# 		-t solarized-powerline
+#         font pango:Roboto 16
+# 	colors {
+# 		background $ibgcolour
+# 		separator #282828
+# 		#			border		background		text
+# 		focused_workspace	$bgcolour 	$bgcolour	 	$black
+# 		inactive_workspace	$ibgcolour	$ibgcolour		$white
+# 		urgent_workspace	$ubgcolour	$ubgcolour		$black
+# 	}
+#}
+
+# Lock screen
+bindsym $mod+ctrl+l exec multilockscreen -l
+
+# Firefox
+bindsym $mod+b exec firefox
+
+# Thunar
+bindsym $mod+f exec thunar
+
+# Htop
+bindsym $mod+Delete exec urxvt -e htop
+
+# Config script
+bindsym $mod+Escape exec /home/naeem/.scripts/dmconf.sh
+
+# Neovide
+bindsym $mod+v exec neovide ~
+
+# Rofi
+bindsym $mod+space exec --no-startup-id rofi -show drun -modi window,drun -display-drun " Run: " 
+
+# Misc media keys
+
+bindsym XF86Explorer exec --no-startup-id thunar
+bindsym XF86HomePage exec --no-startup-id brave
+bindsym XF86Calculator exec --no-startup-id qalculate-gtk
+
+# Hide borders
+#hide_edge_borders none
+
+# Smart borders
+smart_borders on
+
+# Small borders
+for_window [class="^.*"] border pixel 1
+
+# Hide borders for Ulauncher
+for_window [class="Ulauncher"] border pixel 0
+
+# Floating windows
+for_window [class="Virt-manager"] floating enable
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="xfce4-panel"] floating enable
+
+### All commands should be above this. ###
+
+exec /home/naeem/.config/i3/autostart.sh
